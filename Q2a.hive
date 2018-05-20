@@ -1,0 +1,1 @@
+select year,app,count,worksite from ( select year,count,rank() over (partition by year order by count desc ) as app,worksite from      ( select worksite,year,count(*) as count from utility.h1b_applications where job_title like "%DATA ENGINEER%" group by year,worksite) x ) tp where app<2;

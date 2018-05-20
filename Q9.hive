@@ -1,0 +1,13 @@
+drop view default.q9;
+drop view default.q9_1;
+drop view default.q9_2;
+drop view default.q9_3;
+
+create view default.q9 as select employer_name,case_status,count(*) as coun from default.h1b_applications group by employer_name,case_status;
+
+create view default.q9_1 as select employer_name,SUM(coun) as sum from default.q9 group by employer_name having sum>999;
+create view default.q9_2 as select employer_name,SUM(coun) as cert from default.q9 where case_status like "%CERTIFIED%" group by employer_name;
+
+create view default.q9_3 as select a.employer_name,round(((b.cert*100)/a.sum),2) as perc,a.sum from default.q9_1 a full outer join default.q9_2 b on(a.employer_name=b.employer_name);
+
+select perc,sum,employer_name from default.q9_3 where perc>69;

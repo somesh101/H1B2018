@@ -1,0 +1,60 @@
+hive 2
+60	2011    60-81   21
+81	2012    151-81  70
+151	2013    249-151 98
+249	2014    394-249 145
+394	2015    786-394 392
+786	2016    
+Time taken: 49.2
+
+Map REduce
+
+2011-2012 21
+2012-2013 70
+2013-2014 98
+2014-2015 145
+2015-2016 392	0
+
+pig 
+(2012,21)
+(2013,70)
+(2014,98)
+(2015,145)
+(2016,392)
+
+
+
+1b
+create view job_title2011 as select year,count(*) as app,job_title from h1b_applications where year=2011 group by job_title order by app;
+create view job_title2016 as select year,count(*) as app,job_title from h1b_applications where year=2016 group by job_title order by app;
+select (b.app-a.app)/5 as growth, job_title from job_title2011 a,job_title2016 b where a.job_title=b.job_title order by growth limit 10;
+
+HIVE
+2011	PROGRAMMER ANALYST	4388.8
+2011	SOFTWARE ENGINEER	3581.0
+2011	SOFTWARE DEVELOPER	2374.8
+2011	DEVELOPER	1136.8
+2011	BUSINESS ANALYST	1055.2
+
+
+mapreduce
+
+PROGRAMMER ANALYST	4388
+SOFTWARE ENGINEER	3581
+SOFTWARE DEVELOPER	2374
+DEVELOPER	1136
+TECHNOLOGY LEAD - US	1082
+BUSINESS ANALYST	1055
+
+pig
+(PROGRAMMER ANALYST,4388)
+(SOFTWARE ENGINEER,3581)
+(SOFTWARE DEVELOPER,2374)
+(DEVELOPER,1136)
+(BUSINESS ANALYST,1055)
+(SYSTEMS ANALYST,734)
+(SENIOR SOFTWARE ENGINEER,700)
+(COMPUTER SYSTEMS ANALYST,640)
+(CONSULTANT,576)
+(LEAD ENGINEER,555)
+

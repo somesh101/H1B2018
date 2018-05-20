@@ -1,0 +1,23 @@
+HIVE
+create view h1bdc as select * from h1b_applications where job_title like "%DATA SCIENTIST%" and case_status like "CERTIFIED";
+select soc_name,count(*) as most from h1bdc group by soc_name  order by most desc limit 5;
+
+STATISTICIANS	572
+COMPUTER AND INFORMATION RESEARCH SCIENTISTS	419
+OPERATIONS RESEARCH ANALYSTS	380
+Computer and Information Research Scientists	181
+COMPUTER OCCUPATIONS, ALL OTHER	160
+
+
+map red
+
+
+
+pig
+(STATISTICIANS,572)
+(COMPUTER AND INFORMATION RESEARCH SCIENTISTS,419)
+(OPERATIONS RESEARCH ANALYSTS,380)
+(Computer and Information Research Scientists,181)
+(COMPUTER OCCUPATIONS, ALL OTHER,160)
+
+

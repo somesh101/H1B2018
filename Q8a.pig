@@ -1,0 +1,10 @@
+app = load 'h1b.csv' using org.apache.pig.piggybank.storage.CSVExcelStorage() as (s_no:int, case_status:chararray, employer_name:chararray, soc_name:chararray, job_title:chararray, full_time_position:chararray,prevailing_wage:int,year:int, worksite:chararray, longitute:double, latitute:double);
+data1 = filter app by full_time_position MATCHES 'N';
+data = filter data1 by case_status MATCHES '.*CERTIFIED.*';
+datag = group data by (year,job_title);
+datagc = foreach datag generate group,$1.prevailing_wage;
+datagcf = foreach datagc generate $0.$0,$0.$1,FLATTEN($1);
+datagcfg = group datagcf by year;
+datagcfgr = foreach datagcfg generate $1.$0,$1.$1,AVG($1.$2);
+dump datagcfgr;
+STORE datagcfgr INTO '/output';

@@ -1,0 +1,5 @@
+drop view job_title2011;
+drop view job_title2016;
+create view job_title2011 as select year,count(*) as app,job_title from default.h1b_applications where year=2011 group by job_title,year order by app;
+create view job_title2016 as select year,count(*) as app,job_title from default.h1b_applications where year=2016 group by job_title,year order by app;
+select (b.app-a.app)/5 as growth, a.job_title from default.job_title2011 a,default.job_title2016 b where a.job_title=b.job_title order by growth desc limit 10;

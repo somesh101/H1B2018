@@ -1,0 +1,1 @@
+select year,app,count,job_title from ( select year,count,rank() over (partition by year order by count desc ) as app,job_title from ( select job_title,year,avg(cast(prevailing_wage as bigint)) as count from utility.h1b_applications where case_status like "%CERTIFIED%" and full_time_position="N" group by year,job_title) x ) tp where app<2;

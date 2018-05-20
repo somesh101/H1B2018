@@ -1,0 +1,3 @@
+drop view h1a;
+create view default.h1a as select year,count(*) as count from default.h1b_applications where UPPER(job_title) like "%DATA ENGINEER%" group by year;
+select b.year,a.year,a.count-b.count as count from default.h1a a join h1a b where a.year=b.year+1 order by count;

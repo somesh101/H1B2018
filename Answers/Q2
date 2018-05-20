@@ -1,0 +1,53 @@
+HIVE
+select year,app,count,worksite
+from (
+     select year,count,rank() over (partition by year order by count desc ) as app,worksite from
+     ( select worksite,year,count(*) as count from h1b_applications where job_title like "%DATA ENGINEER%" group by year,worksite) x 
+    ) tp where app<2 limit 30;
+2011	1	20	SEATTLE, WASHINGTON
+2012	1	30	SEATTLE, WASHINGTON
+2013	1	46	SEATTLE, WASHINGTON
+2014	1	45	SEATTLE, WASHINGTON
+2015	1	61	SEATTLE, WASHINGTON
+2016	1	128	SEATTLE, WASHINGTON
+
+map red
+
+
+
+pig
+(2011,SEATTLE, WASHINGTON,20)
+(2012,SEATTLE, WASHINGTON,30)
+(2013,SEATTLE, WASHINGTON,46)
+(2014,SEATTLE, WASHINGTON,45)
+(2015,SEATTLE, WASHINGTON,61)
+(2016,SEATTLE, WASHINGTON,128)
+
+
+Hive
+select year,app,count,worksite
+from (
+     select year,count,rank() over (partition by year order by count desc ) as app,worksite from
+     ( select worksite,year,count(*) as count from h1b_applications where job_title like "%DATA ENGINEER%" and case_status like "%CERTIFIED%" group by year,worksite) x 
+    ) tp where app<2;
+
+2011	1	20	SEATTLE, WASHINGTON
+2012	1	30	SEATTLE, WASHINGTON
+2013	1	46	SEATTLE, WASHINGTON
+2014	1	43	SEATTLE, WASHINGTON
+2015	1	60	SEATTLE, WASHINGTON
+2016	1	125	SEATTLE, WASHINGTON
+
+
+map red 
+
+
+
+pig
+(2011,SEATTLE, WASHINGTON,20)
+(2012,SEATTLE, WASHINGTON,30)
+(2013,SEATTLE, WASHINGTON,46)
+(2014,SEATTLE, WASHINGTON,43)
+(2015,SEATTLE, WASHINGTON,60)
+(2016,SEATTLE, WASHINGTON,125)
+

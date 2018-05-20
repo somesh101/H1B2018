@@ -1,0 +1,14 @@
+app = load 'h1b.csv' using org.apache.pig.piggybank.storage.CSVExcelStorage() as (s_no:int, case_status:chararray, employer_name:chararray, soc_name:chararray, job_title:chararray, full_time_position:chararray,prevailing_wage:int,year:int, worksite:chararray, longitute:double, latitute:double);
+data2011 = filter app by year==2011;
+data2016 = filter app by year==2016;
+data2011g = group data2011 by job_title;
+data2016g = group data2016 by job_title;
+data2011gc = foreach data2011g generate group,COUNT(data2011.job_title);
+data2016gc = foreach data2016g generate group,COUNT(data2016.job_title);
+data2011gcf = foreach data2011gc generate FLATTEN($0),FLATTEN($1);
+data2016gcf = foreach data2016gc generate FLATTEN($0),FLATTEN($1);
+dataj = join data2011gcf by $0, data2016gcf by $0; 
+result = foreach dataj generate $0,(($3-$1)/5);
+resultf = order result by $1 desc;
+resultfo = limit resultf 10; 
+dump resultfo;
